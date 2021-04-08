@@ -17,29 +17,6 @@ public class ParserServiceHTMLparserImpl implements ParserService {
     WordCountDao wordCount = new WordCountJDBCImpl();
 
     @Override
-    public void createWordCountTable() {
-        wordCount.createWordCountTable();
-    }
-
-    @Override
-    public void saveWordCountToTable(String url) {
-
-        countWords(docText).entrySet().stream()
-                .sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
-                .forEach(x -> wordCount.saveWordCount(url, x.getKey(), x.getValue()));
-    }
-
-    @Override
-    public Map<String, Long> getStatsBySite(String url) {
-        return wordCount.getStatsBySite(url);
-    }
-
-    @Override
-    public void dropWordCountTable() {
-        wordCount.dropWordCountTable();
-    }
-
-    @Override
     public void countWordsHtml(String html) throws ParseHtmlException {
 
         StringBean sb = new StringBean();
@@ -61,5 +38,28 @@ public class ParserServiceHTMLparserImpl implements ParserService {
         countWords(docText).entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
                 .forEach(x -> System.out.println(mapEntryToString(x)));
+    }
+
+    @Override
+    public void createWordCountTable() {
+        wordCount.createWordCountTable();
+    }
+
+    @Override
+    public void saveWordCountToTable(String url) {
+
+        countWords(docText).entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
+                .forEach(x -> wordCount.saveWordCount(url, x.getKey(), x.getValue()));
+    }
+
+    @Override
+    public Map<String, Long> getStatsBySite(String url) {
+        return wordCount.getStatsBySite(url);
+    }
+
+    @Override
+    public void dropWordCountTable() {
+        wordCount.dropWordCountTable();
     }
 }
